@@ -27,17 +27,12 @@
     "views": {
       "codeSensei": [
         {
+          "type": "webview",
           "id": "codeSensei.sidebar",
           "name": "Code Sensei"
         }
       ]
-    },
-    "commands": [
-      {
-        "command": "code-sensei.helloWorld",
-        "title": "Hello World"
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

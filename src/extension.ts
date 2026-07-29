@@ -1,27 +1,18 @@
 import * as vscode from "vscode";
-import { SidebarProvider } from "./providers/SidebarProvider";
+import { SenseiViewProvider } from "./webview/SenseiViewProvider";
 
 export function activate(context: vscode.ExtensionContext) {
 
-    console.log("🔥 Code Sensei Activated");
+    const provider = new SenseiViewProvider(context.extensionUri);
 
-    vscode.window.showInformationMessage("🔥 Code Sensei Activated");
-
-    vscode.window.registerTreeDataProvider(
-        "codeSensei.sidebar",
-        new SidebarProvider()
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider(
+            SenseiViewProvider.viewType,
+            provider
+        )
     );
 
-    const disposable = vscode.commands.registerCommand(
-        "code-sensei.helloWorld",
-        () => {
-            vscode.window.showInformationMessage(
-                "Hello World from Code Sensei!"
-            );
-        }
-    );
-
-    context.subscriptions.push(disposable);
+    console.log("🥋 Code Sensei Activated");
 }
 
 export function deactivate() {}
