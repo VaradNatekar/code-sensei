@@ -7,43 +7,56 @@ export async function explainCommand(
     webview: vscode.Webview
 ): Promise<void> {
 
-    if (!EditorService.hasActiveEditor()) {
-        vscode.window.showWarningMessage("No active editor found.");
-        return;
-    }
+    try {
 
-    if (!EditorService.hasSelection()) {
-        vscode.window.showWarningMessage(
-            "Please select some code first."
+        if (!EditorService.hasActiveEditor()) {
+            vscode.window.showWarningMessage("No active editor found.");
+            return;
+        }
+
+        if (!EditorService.hasSelection()) {
+            vscode.window.showWarningMessage(
+                "Please select some code first."
+            );
+            return;
+        }
+
+        const code = EditorService.getSelectedCode();
+
+        if (!code) {
+            vscode.window.showWarningMessage(
+                "Unable to read selected code."
+            );
+            return;
+        }
+
+        const language =
+            EditorService.getLanguage() ?? "text";
+
+        const prompt = PromptBuilder.explain(
+            code,
+            language
         );
-        return;
-    }
 
-    const code = EditorService.getSelectedCode();
+        const response =
+            await AIService.generate(prompt);
 
-    if (!code) {
-        vscode.window.showWarningMessage(
-            "Unable to read selected code."
+        vscode.window.showInformationMessage(response);
+
+        console.log("========== PROMPT ==========");
+        console.log(prompt);
+
+        console.log("========== RESPONSE ==========");
+        console.log(response);
+
+    } catch (error) {
+
+        console.error(error);
+
+        vscode.window.showErrorMessage(
+            error instanceof Error
+                ? error.message
+                : "Unknown AI error."
         );
-        return;
     }
-
-    const language = EditorService.getLanguage() ?? "text";
-
-    const prompt = PromptBuilder.explain(
-        code,
-        language
-    );
-
-    const response = await AIService.generate(
-        prompt
-    );
-
-    vscode.window.showInformationMessage(response);
-
-    console.log("========== PROMPT ==========");
-    console.log(prompt);
-
-    console.log("========== RESPONSE ==========");
-    console.log(response);
 }
