@@ -86,6 +86,10 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                             return;
                         }
 
+                        webview.postMessage({
+                            command: "loading"
+                        });
+
                         const code = editor.document.getText(
                             editor.selection
                         );
@@ -103,10 +107,6 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                                 prompt
                             );
 
-                        vscode.window.showInformationMessage(
-                            response
-                        );
-
                         console.log(
                             "========== PROMPT =========="
                         );
@@ -117,15 +117,26 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                         );
                         console.log(response);
 
+                        webview.postMessage({
+                            command: "response",
+                            text: response
+                        });
+
                     } catch (error) {
 
                         console.error(error);
 
-                        vscode.window.showErrorMessage(
+                        const message =
                             error instanceof Error
                                 ? error.message
-                                : "Unknown AI error."
-                        );
+                                : "Unknown AI error.";
+
+                        webview.postMessage({
+                            command: "error",
+                            text: message
+                        });
+
+                        vscode.window.showErrorMessage(message);
 
                     }
 
