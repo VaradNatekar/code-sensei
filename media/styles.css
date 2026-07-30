@@ -1,110 +1,159 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
+body {
 
-    background:var(--vscode-editor-background);
-    color:var(--vscode-editor-foreground);
+    background: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
 
-    font-family:
-    "Segoe UI",
-    sans-serif;
+    font-family: "Segoe UI", sans-serif;
 
-    padding:20px;
+    padding: 20px;
 }
 
-.container{
+.container {
 
-    display:flex;
-    flex-direction:column;
-    gap:18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
-.hero{
+.hero {
 
-    text-align:center;
+    text-align: center;
 }
 
-.logo{
+.logo {
 
-    width:64px;
-    margin:auto;
-    display:block;
+    width: 64px;
+    margin: auto;
+    display: block;
 }
 
-.hero h1{
+.hero h1 {
 
-    margin-top:10px;
-    font-size:28px;
+    margin-top: 10px;
+    font-size: 28px;
 }
 
-.subtitle{
+.subtitle {
 
-    color:var(--vscode-descriptionForeground);
-
-    margin-top:6px;
+    color: var(--vscode-descriptionForeground);
+    margin-top: 6px;
 }
 
-.welcome{
+.welcome {
 
-    background:var(--vscode-sideBar-background);
-
-    padding:16px;
-
-    border-radius:12px;
+    background: var(--vscode-sideBar-background);
+    padding: 16px;
+    border-radius: 12px;
 }
 
-.search input{
+.search input {
 
-    width:100%;
+    width: 100%;
 
-    padding:12px;
+    padding: 12px;
 
-    border-radius:10px;
+    border-radius: 10px;
 
-    border:none;
+    border: none;
 
-    background:var(--vscode-input-background);
-
-    color:var(--vscode-input-foreground);
+    background: var(--vscode-input-background);
+    color: var(--vscode-input-foreground);
 }
 
-.card{
+.card {
 
-    width:100%;
+    width: 100%;
 
-    padding:14px;
+    padding: 14px;
 
-    border:none;
+    border: none;
 
-    border-radius:12px;
+    border-radius: 12px;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    font-size:15px;
+    font-size: 15px;
 
-    background:var(--vscode-button-background);
+    background: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
 
-    color:var(--vscode-button-foreground);
-
-    transition:.2s;
+    transition: all 0.2s ease;
 }
 
-.card:hover{
+.card:hover {
 
-    transform:translateY(-2px);
+    transform: translateY(-2px);
 
-    background:var(--vscode-button-hoverBackground);
+    background: var(--vscode-button-hoverBackground);
 }
 
-.status{
+.response-card {
 
-    text-align:center;
+    background: var(--vscode-editorWidget-background);
 
-    color:var(--vscode-descriptionForeground);
+    border: 1px solid var(--vscode-panel-border);
 
-    margin-top:10px;
+    border-radius: 12px;
+
+    padding: 16px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    min-height: 180px;
+}
+
+.response-card h3 {
+
+    color: var(--vscode-textLink-foreground);
+
+    font-size: 16px;
+}
+
+#responseText {
+
+    white-space: pre-wrap;
+
+    overflow-wrap: anywhere;
+
+    word-break: normal;
+
+    line-height: 1.5;
+
+    font-size: 13px;
+
+    font-family: "Segoe UI", sans-serif;
+
+    background: var(--vscode-textCodeBlock-background);
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    max-height: 280px;
+
+    overflow-y: auto;
+}
+.status {
+
+    text-align: center;
+
+    color: var(--vscode-descriptionForeground);
+
+    font-weight: 600;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: var(--vscode-sideBarSectionHeader-background);
 }

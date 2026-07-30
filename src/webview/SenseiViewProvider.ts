@@ -102,19 +102,13 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                             language
                         );
 
-                        const response =
-                            await AIService.generate(
-                                prompt
-                            );
-
-                        console.log(
-                            "========== PROMPT =========="
-                        );
+                        console.log("========== PROMPT ==========");
                         console.log(prompt);
 
-                        console.log(
-                            "========== RESPONSE =========="
-                        );
+                        const response =
+                            await AIService.generate(prompt);
+
+                        console.log("========== RESPONSE ==========");
                         console.log(response);
 
                         webview.postMessage({
@@ -126,17 +120,34 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
 
                         console.error(error);
 
-                        const message =
-                            error instanceof Error
-                                ? error.message
-                                : "Unknown AI error.";
+                        let errorMessage =
+                            "❌ Failed to generate explanation.";
+
+                        if (error instanceof Error) {
+
+                            if (
+                                error.message.includes("429")
+                            ) {
+
+                                errorMessage =
+`🚫 Gemini API quota exceeded.
+
+Your request reached Gemini successfully, but the API key has no remaining quota.
+
+• Check your Google AI Studio quota
+• Enable billing if required
+• Or use another API key`;
+
+                            } else {
+
+                                errorMessage = error.message;
+                            }
+                        }
 
                         webview.postMessage({
                             command: "error",
-                            text: message
+                            text: errorMessage
                         });
-
-                        vscode.window.showErrorMessage(message);
 
                     }
 
