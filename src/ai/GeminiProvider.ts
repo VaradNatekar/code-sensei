@@ -1,5 +1,7 @@
 export class GeminiProvider {
+
     public async generate(prompt: string): Promise<string> {
+
         const { GoogleGenAI } = await import("@google/genai");
 
         const apiKey = process.env.GEMINI_API_KEY;
@@ -12,11 +14,22 @@ export class GeminiProvider {
             apiKey,
         });
 
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: prompt,
-        });
+        try {
 
-        return response.text ?? "No response generated.";
+            const response = await ai.models.generateContent({
+                model: "gemini-2.0-flash",
+                contents: prompt,
+            });
+
+            return response.text ?? "No response generated.";
+
+        } catch (error) {
+
+            console.error(error);
+            throw error;
+
+        }
+
     }
+
 }

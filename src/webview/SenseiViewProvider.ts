@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
+import { PromptBuilder } from "../ai/PromptBuilder";
+import { AIService } from "../ai/AIService";
 
 export class SenseiViewProvider implements vscode.WebviewViewProvider {
     public static readonly viewType = "codeSensei.sidebar";
@@ -66,32 +68,66 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
 
                 case "explain": {
 
-                    const editor = vscode.window.activeTextEditor;
+                    try {
 
-                    if (!editor) {
-                        vscode.window.showWarningMessage(
-                            "No active editor found."
+                        const editor = vscode.window.activeTextEditor;
+
+                        if (!editor) {
+                            vscode.window.showWarningMessage(
+                                "No active editor found."
+                            );
+                            return;
+                        }
+
+                        if (editor.selection.isEmpty) {
+                            vscode.window.showWarningMessage(
+                                "Please select some code first."
+                            );
+                            return;
+                        }
+
+                        const code = editor.document.getText(
+                            editor.selection
                         );
-                        return;
-                    }
 
-                    if (editor.selection.isEmpty) {
-                        vscode.window.showWarningMessage(
-                            "Please select some code first."
+                        const language =
+                            editor.document.languageId;
+
+                        const prompt = PromptBuilder.explain(
+                            code,
+                            language
                         );
-                        return;
+
+                        const response =
+                            await AIService.generate(
+                                prompt
+                            );
+
+                        vscode.window.showInformationMessage(
+                            response
+                        );
+
+                        console.log(
+                            "========== PROMPT =========="
+                        );
+                        console.log(prompt);
+
+                        console.log(
+                            "========== RESPONSE =========="
+                        );
+                        console.log(response);
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        vscode.window.showErrorMessage(
+                            error instanceof Error
+                                ? error.message
+                                : "Unknown AI error."
+                        );
+
                     }
-
-                    const selectedCode = editor.document.getText(
-                        editor.selection
-                    );
-
-                    console.log("Selected Code:");
-                    console.log(selectedCode);
-
-                    vscode.window.showInformationMessage(
-                        `Selected:\n${selectedCode.substring(0, 100)}`
-                    );
 
                     break;
                 }
@@ -122,7 +158,10 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
 
                 default:
 
-                    console.log("Unknown command:", message.command);
+                    console.log(
+                        "Unknown command:",
+                        message.command
+                    );
 
                     break;
             }
