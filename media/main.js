@@ -14,19 +14,39 @@ let lastAIResponse = "";
 
 function addMessage(sender, text) {
 
-    const bubble = document.createElement("div");
+    const message = document.createElement("div");
 
-    bubble.className =
-        sender === "user"
-            ? "user-message"
-            : "ai-message";
+    message.className = "message " + sender;
 
-    bubble.textContent = text;
+    const now = new Date();
 
-    chatHistory.appendChild(bubble);
+    const time = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
 
-    chatHistory.scrollTop =
-        chatHistory.scrollHeight;
+    message.innerHTML = `
+        <div class="message-header">
+            <span class="sender">
+                ${sender === "user" ? "👤 You" : "🥋 Sensei"}
+            </span>
+
+            <span class="time">
+                ${time}
+            </span>
+        </div>
+
+        <div class="bubble">
+            ${text}
+        </div>
+    `;
+
+    chatHistory.appendChild(message);
+
+    chatHistory.scrollTo({
+    top: chatHistory.scrollHeight,
+    behavior: "smooth"
+});
 }
 
 copyBtn?.addEventListener("click", async () => {
