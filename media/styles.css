@@ -226,3 +226,31 @@ body {
 
     max-width:100%;
 }
+.response-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.copy-btn{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:6px 12px;
+
+    border-radius:8px;
+
+    background:var(--vscode-button-background);
+
+    color:var(--vscode-button-foreground);
+}
+
+.copy-btn:hover{
+
+    background:var(--vscode-button-hoverBackground);
+}

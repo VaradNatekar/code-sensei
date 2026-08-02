@@ -5,8 +5,12 @@ const debugBtn = document.getElementById("debug");
 const learnBtn = document.getElementById("learn");
 const interviewBtn = document.getElementById("interview");
 
+const copyBtn = document.getElementById("copyBtn");
+
 const status = document.getElementById("status");
 const chatHistory = document.getElementById("chatHistory");
+
+let lastAIResponse = "";
 
 function addMessage(sender, text) {
 
@@ -24,6 +28,20 @@ function addMessage(sender, text) {
     chatHistory.scrollTop =
         chatHistory.scrollHeight;
 }
+
+copyBtn?.addEventListener("click", async () => {
+
+    if (!lastAIResponse) {
+        return;
+    }
+
+    await navigator.clipboard.writeText(
+        lastAIResponse
+    );
+
+    status.textContent =
+        "📋 Response copied!";
+});
 
 explainBtn?.addEventListener("click", () => {
 
@@ -83,6 +101,8 @@ window.addEventListener("message", (event) => {
             status.textContent =
                 "✅ Ready";
 
+            lastAIResponse = message.text;
+
             addMessage(
                 "ai",
                 message.text
@@ -94,6 +114,8 @@ window.addEventListener("message", (event) => {
 
             status.textContent =
                 "❌ Error";
+
+            lastAIResponse = message.text;
 
             addMessage(
                 "ai",
