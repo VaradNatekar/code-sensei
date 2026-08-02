@@ -6,14 +6,34 @@ const learnBtn = document.getElementById("learn");
 const interviewBtn = document.getElementById("interview");
 
 const status = document.getElementById("status");
-const responseText = document.getElementById("responseText");
+const chatHistory = document.getElementById("chatHistory");
+
+function addMessage(sender, text) {
+
+    const bubble = document.createElement("div");
+
+    bubble.className =
+        sender === "user"
+            ? "user-message"
+            : "ai-message";
+
+    bubble.textContent = text;
+
+    chatHistory.appendChild(bubble);
+
+    chatHistory.scrollTop =
+        chatHistory.scrollHeight;
+}
 
 explainBtn?.addEventListener("click", () => {
 
-    status.textContent = "🤔 Code Sensei is thinking...";
+    status.textContent =
+        "🤔 Code Sensei is thinking...";
 
-    responseText.textContent =
-        "Generating explanation...";
+    addMessage(
+        "user",
+        "💡 Explain the selected code."
+    );
 
     vscode.postMessage({
         command: "explain"
@@ -54,20 +74,19 @@ window.addEventListener("message", (event) => {
         case "loading":
 
             status.textContent =
-                "🤔 Code Sensei is thinking...";
-
-            responseText.textContent =
-                "Analyzing your code...";
+                "🤔 Thinking...";
 
             break;
 
         case "response":
 
             status.textContent =
-                "✅ Explanation Ready";
+                "✅ Ready";
 
-            responseText.textContent =
-                message.text;
+            addMessage(
+                "ai",
+                message.text
+            );
 
             break;
 
@@ -76,8 +95,10 @@ window.addEventListener("message", (event) => {
             status.textContent =
                 "❌ Error";
 
-            responseText.textContent =
-                message.text;
+            addMessage(
+                "ai",
+                message.text
+            );
 
             break;
 

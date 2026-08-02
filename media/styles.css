@@ -5,93 +5,97 @@
 }
 
 body {
-
     background: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
-
     font-family: "Segoe UI", sans-serif;
-
     padding: 20px;
 }
 
 .container {
-
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-.hero {
+/* ---------------- Hero ---------------- */
 
+.hero {
     text-align: center;
 }
 
 .logo {
-
-    width: 64px;
-    margin: auto;
+    width: 72px;
     display: block;
+    margin: auto;
 }
 
 .hero h1 {
-
-    margin-top: 10px;
-    font-size: 28px;
+    margin-top: 12px;
+    font-size: 34px;
+    font-weight: 700;
 }
 
 .subtitle {
-
+    margin-top: 8px;
     color: var(--vscode-descriptionForeground);
-    margin-top: 6px;
 }
+
+/* ---------------- Welcome Card ---------------- */
 
 .welcome {
-
     background: var(--vscode-sideBar-background);
-    padding: 16px;
-    border-radius: 12px;
+    padding: 18px;
+    border-radius: 14px;
 }
 
+.welcome h2 {
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    line-height: 1.6;
+}
+
+/* ---------------- Search ---------------- */
+
 .search input {
-
     width: 100%;
-
     padding: 12px;
-
-    border-radius: 10px;
-
     border: none;
+    outline: none;
+    border-radius: 10px;
 
     background: var(--vscode-input-background);
     color: var(--vscode-input-foreground);
 }
 
-.card {
+/* ---------------- Buttons ---------------- */
 
+.card {
     width: 100%;
 
-    padding: 14px;
+    padding: 16px;
 
     border: none;
-
-    border-radius: 12px;
+    border-radius: 14px;
 
     cursor: pointer;
 
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 600;
 
     background: var(--vscode-button-background);
     color: var(--vscode-button-foreground);
 
-    transition: all 0.2s ease;
+    transition: all .2s ease;
 }
 
 .card:hover {
-
     transform: translateY(-2px);
-
     background: var(--vscode-button-hoverBackground);
 }
+
+/* ---------------- AI Response ---------------- */
 
 .response-card {
 
@@ -99,61 +103,126 @@ body {
 
     border: 1px solid var(--vscode-panel-border);
 
-    border-radius: 12px;
+    border-radius: 14px;
 
     padding: 16px;
 
     display: flex;
-
     flex-direction: column;
 
-    gap: 12px;
+    gap: 14px;
 
-    min-height: 180px;
+    min-height: 260px;
 }
 
 .response-card h3 {
 
     color: var(--vscode-textLink-foreground);
 
-    font-size: 16px;
+    font-size: 18px;
 }
 
 #responseText {
 
-    white-space: pre-wrap;
-
-    overflow-wrap: anywhere;
-
-    word-break: normal;
-
-    line-height: 1.5;
-
-    font-size: 13px;
-
-    font-family: "Segoe UI", sans-serif;
+    flex: 1;
 
     background: var(--vscode-textCodeBlock-background);
 
-    padding: 12px;
+    border-radius: 10px;
 
-    border-radius: 8px;
+    padding: 14px;
 
-    max-height: 280px;
+    color: var(--vscode-editor-foreground);
+
+    font-size: 14px;
+
+    font-family: "Segoe UI", sans-serif;
+
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+
+    overflow-wrap: break-word;
+
+    word-break: normal;
 
     overflow-y: auto;
+
+    max-height: 350px;
 }
+
+/* ---------------- Status ---------------- */
+
 .status {
 
     text-align: center;
 
-    color: var(--vscode-descriptionForeground);
+    padding: 10px;
+
+    border-radius: 10px;
 
     font-weight: 600;
 
-    padding: 10px;
-
-    border-radius: 8px;
-
     background: var(--vscode-sideBarSectionHeader-background);
+
+    color: var(--vscode-descriptionForeground);
+}
+
+/* ---------------- Scrollbar ---------------- */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--vscode-scrollbarSlider-background);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--vscode-scrollbarSlider-hoverBackground);
+}
+.chat-history{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    max-height:350px;
+
+    overflow-y:auto;
+}
+
+.user-message{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:10px;
+
+    border-radius:10px;
+
+    align-self:flex-end;
+
+    white-space:pre-wrap;
+
+    max-width:90%;
+}
+
+.ai-message{
+
+    background:var(--vscode-editorWidget-background);
+
+    border:1px solid var(--vscode-panel-border);
+
+    padding:10px;
+
+    border-radius:10px;
+
+    white-space:pre-wrap;
+
+    max-width:100%;
 }
