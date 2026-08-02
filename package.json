@@ -63,6 +63,7 @@
   "dependencies": {
     "@google/genai": "^2.14.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "marked": "^18.0.7"
   }
 }
