@@ -153,30 +153,118 @@ Your request reached Gemini successfully, but the API key has no remaining quota
 
                     break;
                 }
+                
+
+                               case "review": {
+
+                    try {
+
+                        const editor = vscode.window.activeTextEditor;
+
+                        if (!editor) {
+                            vscode.window.showWarningMessage(
+                                "No active editor found."
+                            );
+                            return;
+                        }
+
+                        if (editor.selection.isEmpty) {
+                            vscode.window.showWarningMessage(
+                                "Please select some code first."
+                            );
+                            return;
+                        }
+
+                        webview.postMessage({
+                            command: "loading"
+                        });
+
+                        const code = editor.document.getText(
+                            editor.selection
+                        );
+
+                        const language =
+                            editor.document.languageId;
+
+                        const prompt = PromptBuilder.review(
+                            code,
+                            language
+                        );
+
+                        console.log("========== REVIEW PROMPT ==========");
+                        console.log(prompt);
+
+                        const response =
+                            await AIService.generate(prompt);
+
+                        console.log("========== REVIEW RESPONSE ==========");
+                        console.log(response);
+
+                        webview.postMessage({
+                            command: "response",
+                            text: response
+                        });
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        let errorMessage =
+                            "❌ Failed to review code.";
+
+                        if (error instanceof Error) {
+
+                            if (error.message.includes("429")) {
+
+                                errorMessage =
+`🚫 Gemini API quota exceeded.
+
+Your request reached Gemini successfully, but the API key has no remaining quota.
+
+• Check Google AI Studio quota
+• Enable billing if required
+• Or use another API key`;
+
+                            } else {
+
+                                errorMessage = error.message;
+                            }
+
+                        }
+
+                        webview.postMessage({
+                            command: "error",
+                            text: errorMessage
+                        });
+
+                    }
+
+                    break;
+                }
 
                 case "debug":
 
-                    vscode.window.showInformationMessage(
-                        "🐞 Debug My Code clicked!"
-                    );
+    vscode.window.showInformationMessage(
+        "🐞 Debug My Code clicked!"
+    );
 
-                    break;
+    break;
 
-                case "learn":
+case "learn":
 
-                    vscode.window.showInformationMessage(
-                        "📚 Learn a Concept clicked!"
-                    );
+    vscode.window.showInformationMessage(
+        "📚 Learn a Concept clicked!"
+    );
 
-                    break;
+    break;
 
-                case "interview":
+case "interview":
 
-                    vscode.window.showInformationMessage(
-                        "🧠 Interview Mode clicked!"
-                    );
+    vscode.window.showInformationMessage(
+        "🧠 Interview Mode clicked!"
+    );
 
-                    break;
+    break;
 
                 default:
 

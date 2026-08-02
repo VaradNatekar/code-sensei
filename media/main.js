@@ -9,6 +9,8 @@ const copyBtn = document.getElementById("copyBtn");
 
 const status = document.getElementById("status");
 const chatHistory = document.getElementById("chatHistory");
+const reviewBtn =
+    document.getElementById("review");
 
 let lastAIResponse = "";
 
@@ -99,6 +101,19 @@ interviewBtn?.addEventListener("click", () => {
 
     vscode.postMessage({
         command: "interview"
+    });
+
+});
+
+reviewBtn?.addEventListener("click", () => {
+
+    addMessage(
+        "user",
+        "📊 Review my selected code."
+    );
+
+    vscode.postMessage({
+        command: "review"
     });
 
 });

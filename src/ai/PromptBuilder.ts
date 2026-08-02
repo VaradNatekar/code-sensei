@@ -1,6 +1,9 @@
 export class PromptBuilder {
 
-    public static explain(code: string, language: string): string {
+    public static explain(
+        code: string,
+        language: string
+    ): string {
 
         return `
 You are Code Sensei, an expert programming mentor.
@@ -24,18 +27,71 @@ Instructions:
 
     }
 
-    public static debug(code: string, error: string): string {
+    public static review(
+        code: string,
+        language: string
+    ): string {
+
+        return `
+You are a Senior Software Engineer.
+
+Review this ${language} code.
+
+Code:
+
+${code}
+
+Return your answer in Markdown.
+
+# Overall Score
+
+Give a score out of 10.
+
+# Strengths
+
+Mention good things.
+
+# Problems
+
+Mention bugs, readability issues or bad practices.
+
+# Performance
+
+Mention Time and Space Complexity.
+
+# Security
+
+Mention any security issues.
+
+# Best Practices
+
+Suggest improvements.
+
+# Improved Version
+
+Provide a cleaner version of the code.
+`;
+
+    }
+
+    public static debug(
+        code: string,
+        error: string
+    ): string {
 
         return `
 Debug this code.
 
 Code:
+
 ${code}
 
 Error:
+
 ${error}
 
 Explain:
+
 - Why it happened
 - How to fix it
 - Best practices
