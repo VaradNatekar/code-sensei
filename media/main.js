@@ -83,12 +83,16 @@ explainBtn?.addEventListener("click", () => {
 
 debugBtn?.addEventListener("click", () => {
 
+    addMessage(
+        "user",
+        "🐞 Debug my selected code."
+    );
+
     vscode.postMessage({
         command: "debug"
     });
 
 });
-
 learnBtn?.addEventListener("click", () => {
 
     vscode.postMessage({

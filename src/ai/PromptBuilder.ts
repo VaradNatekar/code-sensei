@@ -75,28 +75,41 @@ Provide a cleaner version of the code.
     }
 
     public static debug(
-        code: string,
-        error: string
-    ): string {
+    code: string,
+    language: string
+): string {
 
-        return `
-Debug this code.
+    return `
+You are Code Sensei, an expert debugging mentor.
+
+Language:
+${language}
 
 Code:
-
 ${code}
 
-Error:
+Analyze the code and answer in Markdown.
 
-${error}
+# Problem
 
-Explain:
+Explain what is wrong.
 
-- Why it happened
-- How to fix it
-- Best practices
+# Root Cause
+
+Why is it happening?
+
+# Fix
+
+How should it be fixed?
+
+# Best Practices
+
+Suggest improvements.
+
+# Corrected Code
+
+Provide the corrected version.
 `;
 
-    }
-
+}
 }

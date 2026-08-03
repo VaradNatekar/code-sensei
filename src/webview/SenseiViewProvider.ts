@@ -242,11 +242,88 @@ Your request reached Gemini successfully, but the API key has no remaining quota
                     break;
                 }
 
-                case "debug":
+                case "debug": {
 
-    vscode.window.showInformationMessage(
-        "🐞 Debug My Code clicked!"
-    );
+    try {
+
+        const editor = vscode.window.activeTextEditor;
+
+        if (!editor) {
+            vscode.window.showWarningMessage(
+                "No active editor found."
+            );
+            return;
+        }
+
+        if (editor.selection.isEmpty) {
+            vscode.window.showWarningMessage(
+                "Please select some code first."
+            );
+            return;
+        }
+
+        webview.postMessage({
+            command: "loading"
+        });
+
+        const code = editor.document.getText(
+            editor.selection
+        );
+
+        const language =
+            editor.document.languageId;
+
+        const prompt = PromptBuilder.debug(
+            code,
+            language
+        );
+
+        console.log("========== DEBUG PROMPT ==========");
+        console.log(prompt);
+
+        const response =
+            await AIService.generate(prompt);
+
+        console.log("========== DEBUG RESPONSE ==========");
+        console.log(response);
+
+        webview.postMessage({
+            command: "response",
+            text: response
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        let errorMessage =
+            "❌ Failed to debug code.";
+
+        if (error instanceof Error) {
+
+            if (error.message.includes("429")) {
+
+                errorMessage =
+`🚫 Gemini API quota exceeded.
+
+Please check your quota or API key.`;
+
+            } else {
+
+                errorMessage = error.message;
+            }
+
+        }
+
+        webview.postMessage({
+            command: "error",
+            text: errorMessage
+        });
+
+    }
+
+    break;
+}
 
     break;
 
