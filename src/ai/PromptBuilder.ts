@@ -113,3 +113,37 @@ Provide the corrected version.
 
 }
 }
+public static learn(
+    code: string,
+    language: string
+): string {
+
+    return `
+You are Code Sensei, an expert programming teacher.
+
+Language:
+${language}
+
+Selected Topic:
+${code}
+
+Teach this topic to a beginner.
+
+Return the answer in Markdown.
+
+# What is it?
+
+# Why is it used?
+
+# How does it work?
+
+# Real World Example
+
+# Time & Space Complexity
+
+# Common Interview Questions
+
+# Mini Practice Exercise
+`;
+
+}

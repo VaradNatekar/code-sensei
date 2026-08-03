@@ -95,9 +95,14 @@ debugBtn?.addEventListener("click", () => {
 });
 learnBtn?.addEventListener("click", () => {
 
+    addMessage(
+        "user",
+        "📚 Teach me this concept."
+    );
+
     vscode.postMessage({
         command: "learn"
-    });
+  });
 
 });
 
