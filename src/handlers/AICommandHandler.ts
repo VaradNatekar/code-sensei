@@ -6,7 +6,7 @@ export class AICommandHandler {
     public static async execute(
         webview: vscode.Webview,
         prompt: string,
-        errorMessage: string
+        failureMessage: string
     ): Promise<void> {
 
         try {
@@ -25,7 +25,9 @@ export class AICommandHandler {
 
         } catch (error) {
 
-            let message = errorMessage;
+            console.error(error);
+
+            let message = failureMessage;
 
             if (error instanceof Error) {
                 message = error.message;

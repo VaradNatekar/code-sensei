@@ -75,11 +75,11 @@ Provide a cleaner version of the code.
     }
 
     public static debug(
-    code: string,
-    language: string
-): string {
+        code: string,
+        language: string
+    ): string {
 
-    return `
+        return `
 You are Code Sensei, an expert debugging mentor.
 
 Language:
@@ -111,14 +111,14 @@ Suggest improvements.
 Provide the corrected version.
 `;
 
-}
-}
-public static learn(
-    code: string,
-    language: string
-): string {
+    }
 
-    return `
+    public static learn(
+        code: string,
+        language: string
+    ): string {
+
+        return `
 You are Code Sensei, an expert programming teacher.
 
 Language:
@@ -145,5 +145,7 @@ Return the answer in Markdown.
 
 # Mini Practice Exercise
 `;
+
+    }
 
 }
