@@ -15,6 +15,24 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "codeSensei.explain",
+        "title": "Code Sensei: Explain Selected Code"
+      },
+      {
+        "command": "codeSensei.review",
+        "title": "Code Sensei: Review Selected Code"
+      },
+      {
+        "command": "codeSensei.debug",
+        "title": "Code Sensei: Debug Selected Code"
+      },
+      {
+        "command": "codeSensei.learn",
+        "title": "Code Sensei: Learn Selected Concept"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
@@ -34,6 +52,27 @@
       ]
     }
   },
+
+  "menus": {
+  "editor/context": [
+    {
+      "command": "codeSensei.explain",
+      "group": "navigation"
+    },
+    {
+      "command": "codeSensei.review",
+      "group": "navigation"
+    },
+    {
+      "command": "codeSensei.debug",
+      "group": "navigation"
+    },
+    {
+      "command": "codeSensei.learn",
+      "group": "navigation"
+    }
+  ]
+},
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
@@ -64,6 +103,6 @@
     "@google/genai": "^2.14.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "dotenv": "^17.4.2",
-    "marked": "^18.0.7"
+    "marked": "^18.0.9"
   }
 }
