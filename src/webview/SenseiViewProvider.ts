@@ -61,7 +61,77 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
             .replace("{{icon}}", iconUri.toString());
 
         webview.html = html;
+        const runAI = async (
+    builder: (code: string, language: string) => string,
+    defaultError: string
+) => {
 
+    try {
+
+        const editor = vscode.window.activeTextEditor;
+
+        if (!editor) {
+            vscode.window.showWarningMessage(
+                "No active editor found."
+            );
+            return;
+        }
+
+        if (editor.selection.isEmpty) {
+            vscode.window.showWarningMessage(
+                "Please select some code first."
+            );
+            return;
+        }
+
+        webview.postMessage({
+            command: "loading"
+        });
+
+        const code = editor.document.getText(
+            editor.selection
+        );
+
+        const language =
+            editor.document.languageId;
+
+        const prompt = builder(
+            code,
+            language
+        );
+
+        console.log("========== PROMPT ==========");
+        console.log(prompt);
+
+        const response =
+            await AIService.generate(prompt);
+
+        console.log("========== RESPONSE ==========");
+        console.log(response);
+
+        webview.postMessage({
+            command: "response",
+            text: response
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        let errorMessage = defaultError;
+
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        webview.postMessage({
+            command: "error",
+            text: errorMessage
+        });
+
+    }
+
+};
         webview.onDidReceiveMessage(async (message) => {
 
             switch (message.command) {
