@@ -1,7 +1,9 @@
 import * as vscode from "vscode";
 import * as dotenv from "dotenv";
 import * as path from "path";
+
 import { SenseiViewProvider } from "./webview/SenseiViewProvider";
+import { explainCommand } from "./commands/ExplainCommand";
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -33,11 +35,10 @@ export function activate(context: vscode.ExtensionContext) {
             : "NOT FOUND ❌"
     );
 
-    // Sidebar
-    const provider =
-        new SenseiViewProvider(
-            context.extensionUri
-        );
+    // Register Sidebar
+    const provider = new SenseiViewProvider(
+        context.extensionUri
+    );
 
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
@@ -46,17 +47,13 @@ export function activate(context: vscode.ExtensionContext) {
         )
     );
 
-    // Command Palette Commands
+    // Register Commands
 
     context.subscriptions.push(
 
         vscode.commands.registerCommand(
             "codeSensei.explain",
-            () => {
-                vscode.window.showInformationMessage(
-                    "💡 Explain command triggered!"
-                );
-            }
+            explainCommand
         ),
 
         vscode.commands.registerCommand(

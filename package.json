@@ -52,27 +52,26 @@
       ]
     }
   },
-
   "menus": {
-  "editor/context": [
-    {
-      "command": "codeSensei.explain",
-      "group": "navigation"
-    },
-    {
-      "command": "codeSensei.review",
-      "group": "navigation"
-    },
-    {
-      "command": "codeSensei.debug",
-      "group": "navigation"
-    },
-    {
-      "command": "codeSensei.learn",
-      "group": "navigation"
-    }
-  ]
-},
+    "editor/context": [
+      {
+        "command": "codeSensei.explain",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.review",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.debug",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.learn",
+        "group": "navigation"
+      }
+    ]
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
@@ -103,6 +102,7 @@
     "@google/genai": "^2.14.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "dotenv": "^17.4.2",
+    "groq-sdk": "^1.5.0",
     "marked": "^18.0.9"
   }
 }

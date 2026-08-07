@@ -23,9 +23,15 @@ export class GeminiProvider {
 
             return response.text ?? "No response generated.";
 
-        } catch (error) {
+        } catch (error: any) {
 
-            console.error(error);
+            console.error("========== GEMINI ERROR ==========");
+            console.dir(error, { depth: null });
+
+            console.error("Status:", error?.status);
+            console.error("Message:", error?.message);
+            console.error("Error:", error?.error);
+
             throw error;
 
         }
