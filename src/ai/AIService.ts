@@ -1,9 +1,15 @@
-import { GeminiProvider } from "./GeminiProvider";
+import { GroqProvider } from "./GroqProvider";
 
 export class AIService {
-    private static readonly provider = new GeminiProvider();
 
-    public static async generate(prompt: string): Promise<string> {
+    private static provider = new GroqProvider();
+
+    public static async generate(
+        prompt: string
+    ): Promise<string> {
+
         return await this.provider.generate(prompt);
+
     }
+
 }
