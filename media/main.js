@@ -1,6 +1,7 @@
 const vscode = acquireVsCodeApi();
 
 const explainBtn = document.getElementById("explain");
+const reviewBtn = document.getElementById("review");
 const debugBtn = document.getElementById("debug");
 const learnBtn = document.getElementById("learn");
 const interviewBtn = document.getElementById("interview");
@@ -9,8 +10,6 @@ const copyBtn = document.getElementById("copyBtn");
 
 const status = document.getElementById("status");
 const chatHistory = document.getElementById("chatHistory");
-const reviewBtn =
-    document.getElementById("review");
 
 let lastAIResponse = "";
 
@@ -46,29 +45,29 @@ function addMessage(sender, text) {
     chatHistory.appendChild(message);
 
     chatHistory.scrollTo({
-    top: chatHistory.scrollHeight,
-    behavior: "smooth"
-});
+        top: chatHistory.scrollHeight,
+        behavior: "smooth"
+    });
+
 }
+
+// Copy
 
 copyBtn?.addEventListener("click", async () => {
 
-    if (!lastAIResponse) {
-        return;
-    }
+    if (!lastAIResponse) return;
 
-    await navigator.clipboard.writeText(
-        lastAIResponse
-    );
+    await navigator.clipboard.writeText(lastAIResponse);
 
-    status.textContent =
-        "📋 Response copied!";
+    status.textContent = "📋 Response copied";
+
 });
+
+// Explain
 
 explainBtn?.addEventListener("click", () => {
 
-    status.textContent =
-        "🤔 Code Sensei is thinking...";
+    status.textContent = "🤔 Thinking...";
 
     addMessage(
         "user",
@@ -81,40 +80,13 @@ explainBtn?.addEventListener("click", () => {
 
 });
 
-debugBtn?.addEventListener("click", () => {
-
-    addMessage(
-        "user",
-        "🐞 Debug my selected code."
-    );
-
-    vscode.postMessage({
-        command: "debug"
-    });
-
-});
-learnBtn?.addEventListener("click", () => {
-
-    addMessage(
-        "user",
-        "📚 Teach me this concept."
-    );
-
-    vscode.postMessage({
-        command: "learn"
-  });
-
-});
-
-interviewBtn?.addEventListener("click", () => {
-
-    vscode.postMessage({
-        command: "interview"
-    });
-
-});
+// Review
 
 reviewBtn?.addEventListener("click", () => {
+
+    console.log("Review button clicked");
+
+    status.textContent = "🤔 Thinking...";
 
     addMessage(
         "user",
@@ -127,6 +99,59 @@ reviewBtn?.addEventListener("click", () => {
 
 });
 
+// Debug
+
+debugBtn?.addEventListener("click", () => {
+
+    status.textContent = "🤔 Thinking...";
+
+    addMessage(
+        "user",
+        "🐞 Debug my selected code."
+    );
+
+    vscode.postMessage({
+        command: "debug"
+    });
+
+});
+
+// Learn
+
+learnBtn?.addEventListener("click", () => {
+
+    status.textContent = "🤔 Thinking...";
+
+    addMessage(
+        "user",
+        "📚 Teach me this concept."
+    );
+
+    vscode.postMessage({
+        command: "learn"
+    });
+
+});
+
+// Interview
+
+interviewBtn?.addEventListener("click", () => {
+
+    status.textContent = "🤔 Thinking...";
+
+    addMessage(
+        "user",
+        "🧠 Generate interview questions."
+    );
+
+    vscode.postMessage({
+        command: "interview"
+    });
+
+});
+
+// Messages from Extension
+
 window.addEventListener("message", (event) => {
 
     const message = event.data;
@@ -135,15 +160,12 @@ window.addEventListener("message", (event) => {
 
         case "loading":
 
-            status.textContent =
-                "🤔 Thinking...";
-
+            status.textContent = "🤔 Thinking...";
             break;
 
         case "response":
 
-            status.textContent =
-                "✅ Ready";
+            status.textContent = "✅ Ready";
 
             lastAIResponse = message.text;
 
@@ -156,8 +178,7 @@ window.addEventListener("message", (event) => {
 
         case "error":
 
-            status.textContent =
-                "❌ Error";
+            status.textContent = "❌ Error";
 
             lastAIResponse = message.text;
 

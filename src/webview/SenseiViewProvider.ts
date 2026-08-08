@@ -4,6 +4,7 @@ import { PromptBuilder } from "../ai/PromptBuilder";
 import { AIService } from "../ai/AIService";
 
 export class SenseiViewProvider implements vscode.WebviewViewProvider {
+
     public static readonly viewType = "codeSensei.sidebar";
 
     constructor(
@@ -19,7 +20,10 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
         webview.options = {
             enableScripts: true,
             localResourceRoots: [
-                vscode.Uri.joinPath(this.extensionUri, "media")
+                vscode.Uri.joinPath(
+                    this.extensionUri,
+                    "media"
+                )
             ]
         };
 
@@ -29,7 +33,10 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
             "index.html"
         );
 
-        let html = fs.readFileSync(htmlPath.fsPath, "utf8");
+        let html = fs.readFileSync(
+            htmlPath.fsPath,
+            "utf8"
+        );
 
         const styleUri = webview.asWebviewUri(
             vscode.Uri.joinPath(
@@ -56,209 +63,171 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
         );
 
         html = html
-            .replace("{{style}}", styleUri.toString())
-            .replace("{{script}}", scriptUri.toString())
-            .replace("{{icon}}", iconUri.toString());
+            .replace(
+                "{{style}}",
+                styleUri.toString()
+            )
+            .replace(
+                "{{script}}",
+                scriptUri.toString()
+            )
+            .replace(
+                "{{icon}}",
+                iconUri.toString()
+            );
 
         webview.html = html;
+
+        // -------------------------------
+        // Shared AI Runner
+        // -------------------------------
+
         const runAI = async (
-    builder: (code: string, language: string) => string,
-    defaultError: string
-) => {
+            builder: (
+                code: string,
+                language: string
+            ) => string,
+            defaultError: string
+        ) => {
 
-    try {
+            try {
 
-        const editor = vscode.window.activeTextEditor;
+                const editor =
+                    vscode.window.activeTextEditor;
 
-        if (!editor) {
-            vscode.window.showWarningMessage(
-                "No active editor found."
-            );
-            return;
-        }
+                if (!editor) {
 
-        if (editor.selection.isEmpty) {
-            vscode.window.showWarningMessage(
-                "Please select some code first."
-            );
-            return;
-        }
+                    vscode.window.showWarningMessage(
+                        "No active editor found."
+                    );
 
-        webview.postMessage({
-            command: "loading"
-        });
-
-        const code = editor.document.getText(
-            editor.selection
-        );
-
-        const language =
-            editor.document.languageId;
-
-        const prompt = builder(
-            code,
-            language
-        );
-
-        console.log("========== PROMPT ==========");
-        console.log(prompt);
-
-        const response =
-            await AIService.generate(prompt);
-
-        console.log("========== RESPONSE ==========");
-        console.log(response);
-
-        webview.postMessage({
-            command: "response",
-            text: response
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        let errorMessage = defaultError;
-
-        if (error instanceof Error) {
-            errorMessage = error.message;
-        }
-
-        webview.postMessage({
-            command: "error",
-            text: errorMessage
-        });
-
-    }
-
-};
-        webview.onDidReceiveMessage(async (message) => {
-
-            switch (message.command) {
-
-                case "explain": {
-
-                    try {
-
-                        const editor = vscode.window.activeTextEditor;
-
-                        if (!editor) {
-                            vscode.window.showWarningMessage(
-                                "No active editor found."
-                            );
-                            return;
-                        }
-
-                        if (editor.selection.isEmpty) {
-                            vscode.window.showWarningMessage(
-                                "Please select some code first."
-                            );
-                            return;
-                        }
-
-                        webview.postMessage({
-                            command: "loading"
-                        });
-
-                        const code = editor.document.getText(
-                            editor.selection
-                        );
-
-                        const language =
-                            editor.document.languageId;
-
-                        const prompt = PromptBuilder.explain(
-                            code,
-                            language
-                        );
-
-                        console.log("========== PROMPT ==========");
-                        console.log(prompt);
-
-                        const response =
-                            await AIService.generate(prompt);
-
-                        console.log("========== RESPONSE ==========");
-                        console.log(response);
-
-                        webview.postMessage({
-                            command: "response",
-                            text: response
-                        });
-
-                    } catch (error) {
-
-                        console.error(error);
-
-                        let errorMessage =
-                            "❌ Failed to generate explanation.";
-
-                        if (error instanceof Error) {
-
-                            if (
-                                error.message.includes("429")
-                            ) {
-
-                                errorMessage =
-`🚫 Gemini API quota exceeded.
-
-Your request reached Gemini successfully, but the API key has no remaining quota.
-
-• Check your Google AI Studio quota
-• Enable billing if required
-• Or use another API key`;
-
-                            } else {
-
-                                errorMessage = error.message;
-                            }
-                        }
-
-                        webview.postMessage({
-                            command: "error",
-                            text: errorMessage
-                        });
-
-                    }
-
-                    break;
+                    return;
                 }
 
-                case "debug":
+                if (editor.selection.isEmpty) {
 
-                    vscode.window.showInformationMessage(
-                        "🐞 Debug My Code clicked!"
+                    vscode.window.showWarningMessage(
+                        "Please select some code first."
                     );
 
-                    break;
+                    return;
+                }
 
-                case "learn":
+                webview.postMessage({
+                    command: "loading"
+                });
 
-                    vscode.window.showInformationMessage(
-                        "📚 Learn a Concept clicked!"
+                const code =
+                    editor.document.getText(
+                        editor.selection
                     );
 
-                    break;
+                const language =
+                    editor.document.languageId;
 
-                case "interview":
-
-                    vscode.window.showInformationMessage(
-                        "🧠 Interview Mode clicked!"
+                const prompt =
+                    builder(
+                        code,
+                        language
                     );
 
-                    break;
-
-                default:
-
-                    console.log(
-                        "Unknown command:",
-                        message.command
+                const response =
+                    await AIService.generate(
+                        prompt
                     );
 
-                    break;
+                webview.postMessage({
+                    command: "response",
+                    text: response
+                });
+
+            } catch (error) {
+
+                let errorMessage =
+                    defaultError;
+
+                if (error instanceof Error) {
+                    errorMessage =
+                        error.message;
+                }
+
+                webview.postMessage({
+                    command: "error",
+                    text: errorMessage
+                });
+
             }
 
-        });
+        };
+
+        // -------------------------------
+        // Message Handler
+        // -------------------------------
+
+        webview.onDidReceiveMessage(
+            async (message) => {
+
+                switch (message.command) {
+
+                    case "explain":
+
+                        await runAI(
+                            PromptBuilder.explain,
+                            "❌ Failed to explain code."
+                        );
+
+                        break;
+
+                    case "review":
+
+                        await runAI(
+                            PromptBuilder.review,
+                            "❌ Failed to review code."
+                        );
+
+                        break;
+
+                    case "debug":
+
+                  await runAI(
+                  PromptBuilder.debug,
+                  "❌ Failed to debug code."
+                  );
+
+                    break;
+
+                    case "learn":
+
+                    await runAI(
+                   PromptBuilder.learn,
+                    "❌ Failed to teach concept."
+                    );
+
+                    break;
+
+                    case "interview":
+
+    await runAI(
+        PromptBuilder.interview,
+        "❌ Failed to generate interview questions."
+    );
+
+    break;
+
+                    default:
+
+                        console.log(
+                            "Unknown command:",
+                            message.command
+                        );
+
+                        break;
+
+                }
+
+            }
+        );
 
     }
+
 }

@@ -146,6 +146,47 @@ Return the answer in Markdown.
 # Mini Practice Exercise
 `;
 
-    }
+    
 
+}
+public static interview(
+    code: string,
+    language: string
+): string {
+
+    return `
+You are a Senior Software Engineer conducting a technical interview.
+
+Language:
+${language}
+
+Code:
+${code}
+
+Generate an interview based on this code.
+
+Return the answer in Markdown.
+
+# Interview Questions
+
+Generate 5 interview questions.
+
+# Expected Answers
+
+Provide ideal answers.
+
+# Follow-up Questions
+
+Ask deeper follow-up questions.
+
+# Difficulty
+
+Mention Easy / Medium / Hard.
+
+# Tips
+
+Give interview tips for this topic.
+`;
+
+}
 }
