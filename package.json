@@ -16,23 +16,27 @@
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "codeSensei.explain",
-        "title": "Code Sensei: Explain Selected Code"
-      },
-      {
-        "command": "codeSensei.review",
-        "title": "Code Sensei: Review Selected Code"
-      },
-      {
-        "command": "codeSensei.debug",
-        "title": "Code Sensei: Debug Selected Code"
-      },
-      {
-        "command": "codeSensei.learn",
-        "title": "Code Sensei: Learn Selected Concept"
-      }
-    ],
+  {
+    "command": "codeSensei.explain",
+    "title": "Code Sensei: Explain Selected Code"
+  },
+  {
+    "command": "codeSensei.review",
+    "title": "Code Sensei: Review Selected Code"
+  },
+  {
+    "command": "codeSensei.debug",
+    "title": "Code Sensei: Debug Selected Code"
+  },
+  {
+    "command": "codeSensei.learn",
+    "title": "Code Sensei: Learn Selected Concept"
+  },
+  {
+    "command": "codeSensei.explainFile",
+    "title": "Code Sensei: Explain Current File"
+  }
+],
     "viewsContainers": {
       "activitybar": [
         {
@@ -52,26 +56,34 @@
       ]
     }
   },
-  "menus": {
+"menus": {
     "editor/context": [
-      {
-        "command": "codeSensei.explain",
-        "group": "navigation"
-      },
-      {
-        "command": "codeSensei.review",
-        "group": "navigation"
-      },
-      {
-        "command": "codeSensei.debug",
-        "group": "navigation"
-      },
-      {
-        "command": "codeSensei.learn",
-        "group": "navigation"
-      }
+        {
+            "command": "codeSensei.explain",
+            "group": "navigation"
+        },
+        {
+            "command": "codeSensei.review",
+            "group": "navigation"
+        },
+        {
+            "command": "codeSensei.debug",
+            "group": "navigation"
+        },
+        {
+            "command": "codeSensei.learn",
+            "group": "navigation"
+        },
+        {
+            "command": "codeSensei.interview",
+            "group": "navigation"
+        },
+        {
+    "command": "codeSensei.explainFile",
+    "group": "navigation"
+}
     ]
-  },
+},
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
@@ -103,6 +115,7 @@
     "@modelcontextprotocol/sdk": "^1.30.0",
     "dotenv": "^17.4.2",
     "groq-sdk": "^1.5.0",
+    "highlight.js": "^11.11.1",
     "marked": "^18.0.9"
   }
 }

@@ -223,10 +223,108 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
 
                         break;
 
+                        case "explainFile": {
+
+    try {
+
+        const editor =
+            vscode.window.activeTextEditor;
+
+        if (!editor) {
+
+            vscode.window.showWarningMessage(
+                "No active editor found."
+            );
+
+            return;
+        }
+
+        webview.postMessage({
+            command: "loading"
+        });
+
+        const code =
+            editor.document.getText();
+
+        const language =
+            editor.document.languageId;
+
+        const fileName =
+            editor.document.fileName;
+
+        const prompt = `
+You are Code Sensei.
+
+Analyze this entire ${language} file.
+
+File:
+${fileName}
+
+Code:
+${code}
+
+Return your answer in Markdown.
+
+# 📄 Purpose
+
+Explain what this file does.
+
+# 🧩 Main Components
+
+Explain the important functions or classes.
+
+# 🔄 Execution Flow
+
+Describe how the file works.
+
+# ✅ Good Practices
+
+Mention what is good.
+
+# ❌ Problems
+
+Mention bugs or bad practices.
+
+# 🚀 Improvements
+
+Suggest improvements.
+`;
+
+        const response =
+            await AIService.generate(
+                prompt
+            );
+
+        webview.postMessage({
+            command: "response",
+            text: response
+        });
+
+    } catch (error) {
+
+        let errorMessage =
+            "❌ Failed to explain file.";
+
+        if (error instanceof Error) {
+            errorMessage =
+                error.message;
+        }
+
+        webview.postMessage({
+            command: "error",
+            text: errorMessage
+        });
+
+    }
+
+    break;
+}
+
                 }
 
             }
         );
+        
 
     }
 

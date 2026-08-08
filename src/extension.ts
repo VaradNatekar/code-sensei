@@ -4,6 +4,7 @@ import * as path from "path";
 
 import { SenseiViewProvider } from "./webview/SenseiViewProvider";
 import { explainCommand } from "./commands/ExplainCommand";
+import { explainFileCommand } from "./commands/ExplainFileCommand";
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -48,7 +49,6 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Register Commands
-
     context.subscriptions.push(
 
         vscode.commands.registerCommand(
@@ -81,12 +81,24 @@ export function activate(context: vscode.ExtensionContext) {
                     "📚 Learn command triggered!"
                 );
             }
-        )
+        ),
+
+        vscode.commands.registerCommand(
+            "codeSensei.interview",
+            () => {
+                vscode.window.showInformationMessage(
+                    "🧠 Interview command triggered!"
+                );
+            }
+        ),
+        vscode.commands.registerCommand(
+    "codeSensei.explainFile",
+    explainFileCommand
+),
 
     );
 
     console.log("🥋 Code Sensei Activated");
-
 }
 
 export function deactivate() {}

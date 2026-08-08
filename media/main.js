@@ -5,6 +5,7 @@ const reviewBtn = document.getElementById("review");
 const debugBtn = document.getElementById("debug");
 const learnBtn = document.getElementById("learn");
 const interviewBtn = document.getElementById("interview");
+const explainFileBtn = document.getElementById("explainFile");
 
 const copyBtn = document.getElementById("copyBtn");
 
@@ -38,8 +39,12 @@ function addMessage(sender, text) {
         </div>
 
         <div class="bubble">
-            ${text}
-        </div>
+    ${
+        sender === "ai"
+            ? marked.parse(text)
+            : text
+    }
+</div>
     `;
 
     chatHistory.appendChild(message);
@@ -149,6 +154,18 @@ interviewBtn?.addEventListener("click", () => {
     });
 
 });
+explainFileBtn?.addEventListener(() => {
+
+    addMessage(
+        "user",
+        "📄 Explain the current file."
+    );
+
+    vscode.postMessage({
+        command: "explainFile"
+    });
+
+});
 
 // Messages from Extension
 
@@ -165,16 +182,74 @@ window.addEventListener("message", (event) => {
 
         case "response":
 
-            status.textContent = "✅ Ready";
+    status.textContent = "✅ Ready";
 
-            lastAIResponse = message.text;
+    lastAIResponse = message.text;
 
-            addMessage(
-                "ai",
-                message.text
-            );
+    addMessage(
+        "ai",
+        message.text
+    );
 
-            break;
+    setTimeout(() => {
+
+        // Syntax Highlighting
+        document
+            .querySelectorAll("pre code")
+            .forEach((block) => {
+
+                hljs.highlightElement(block);
+
+            });
+
+        // Copy Button
+        document
+            .querySelectorAll("pre")
+            .forEach((pre) => {
+
+                // Prevent duplicate buttons
+                if (
+                    pre.previousElementSibling &&
+                    pre.previousElementSibling.classList.contains("copy-code")
+                ) {
+                    return;
+                }
+
+                const button = document.createElement("button");
+
+                button.className = "copy-code";
+
+                button.textContent = "📋 Copy";
+
+                button.addEventListener(
+                    "click",
+                    async () => {
+
+                        await navigator.clipboard.writeText(
+                            pre.innerText
+                        );
+
+                        button.textContent = "✅ Copied!";
+
+                        setTimeout(() => {
+
+                            button.textContent = "📋 Copy";
+
+                        }, 1500);
+
+                    }
+                );
+
+                pre.parentNode.insertBefore(
+                    button,
+                    pre
+                );
+
+            });
+
+    }, 0);
+
+    break;
 
         case "error":
 
