@@ -2,8 +2,12 @@
   "name": "code-sensei",
   "displayName": "Code Sensei",
   "description": "AI coding mentor that teaches developers through guidance, hints, and explanations instead of giving direct solutions.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "varad",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/VaradNatekar/code-sensei.git"
+},
   "engines": {
     "vscode": "^1.125.0"
   },
@@ -11,32 +15,52 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
-  ],
+    "onView:codeSensei.sidebar",
+    "onCommand:codeSensei.setApiKey",
+    "onCommand:codeSensei.explain",
+    "onCommand:codeSensei.review",
+    "onCommand:codeSensei.debug",
+    "onCommand:codeSensei.learn",
+    "onCommand:codeSensei.interview",
+    "onCommand:codeSensei.explainFile",
+    "onCommand:codeSensei.generateTests"
+],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-  {
-    "command": "codeSensei.explain",
-    "title": "Code Sensei: Explain Selected Code"
-  },
-  {
-    "command": "codeSensei.review",
-    "title": "Code Sensei: Review Selected Code"
-  },
-  {
-    "command": "codeSensei.debug",
-    "title": "Code Sensei: Debug Selected Code"
-  },
-  {
-    "command": "codeSensei.learn",
-    "title": "Code Sensei: Learn Selected Concept"
-  },
-  {
-    "command": "codeSensei.explainFile",
-    "title": "Code Sensei: Explain Current File"
-  }
-],
+      {
+        "command": "codeSensei.setApiKey",
+        "title": "Code Sensei: Set Groq API Key"
+      },
+      {
+        "command": "codeSensei.explain",
+        "title": "Code Sensei: Explain Selected Code"
+      },
+      {
+        "command": "codeSensei.review",
+        "title": "Code Sensei: Review Selected Code"
+      },
+      {
+        "command": "codeSensei.debug",
+        "title": "Code Sensei: Debug Selected Code"
+      },
+      {
+        "command": "codeSensei.learn",
+        "title": "Code Sensei: Learn Selected Concept"
+      },
+      {
+        "command": "codeSensei.interview",
+        "title": "Code Sensei: Interview Mode"
+      },
+      {
+        "command": "codeSensei.explainFile",
+        "title": "Code Sensei: Explain Current File"
+      },
+      {
+        "command": "codeSensei.generateTests",
+        "title": "Code Sensei: Generate Unit Tests"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
@@ -56,34 +80,38 @@
       ]
     }
   },
-"menus": {
+  "menus": {
     "editor/context": [
-        {
-            "command": "codeSensei.explain",
-            "group": "navigation"
-        },
-        {
-            "command": "codeSensei.review",
-            "group": "navigation"
-        },
-        {
-            "command": "codeSensei.debug",
-            "group": "navigation"
-        },
-        {
-            "command": "codeSensei.learn",
-            "group": "navigation"
-        },
-        {
-            "command": "codeSensei.interview",
-            "group": "navigation"
-        },
-        {
-    "command": "codeSensei.explainFile",
-    "group": "navigation"
-}
+      {
+        "command": "codeSensei.explain",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.review",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.debug",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.learn",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.interview",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.explainFile",
+        "group": "navigation"
+      },
+      {
+        "command": "codeSensei.generateTests",
+        "group": "navigation"
+      }
     ]
-},
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
@@ -104,6 +132,7 @@
     "@types/vscode": "^1.125.0",
     "@vscode/test-cli": "^0.0.15",
     "@vscode/test-electron": "^3.0.0",
+    "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.1",
     "eslint": "^10.5.0",
     "npm-run-all": "^4.1.5",
@@ -113,7 +142,6 @@
   "dependencies": {
     "@google/genai": "^2.14.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "dotenv": "^17.4.2",
     "groq-sdk": "^1.5.0",
     "highlight.js": "^11.11.1",
     "marked": "^18.0.9"

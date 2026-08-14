@@ -1,71 +1,148 @@
-# code-sensei README
+# 🥋 Code Sensei
 
-This is the README for your extension "code-sensei". After writing up a brief description, we recommend including the following sections.
+> An AI-powered coding mentor that helps developers **learn, understand, debug, review, and improve code** instead of simply copying solutions.
 
-## Features
+Code Sensei is a Visual Studio Code extension designed around one idea:
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+**Learn instead of copy.**
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+It brings an AI programming mentor directly into VS Code so developers can understand their code, practice concepts, prepare for interviews, and improve their problem-solving skills without leaving the editor.
 
 ---
 
-## Following extension guidelines
+## ✨ Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+### 💡 Explain Selected Code
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+Select any piece of code and ask Code Sensei to explain:
 
-## Working with Markdown
+- What the code does
+- How it works
+- Important concepts
+- Step-by-step execution
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+### 📊 Code Review
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+Get an AI-powered review of selected code covering:
 
-## For more information
+- Code quality
+- Potential issues
+- Best practices
+- Improvements
+- Maintainability
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### 🐞 Debug My Code
 
-**Enjoy!**
+Use Code Sensei to analyze selected code and identify:
+
+- Bugs
+- Possible causes
+- Logic problems
+- Suggested fixes
+- Debugging approaches
+
+### 📚 Learn a Concept
+
+Learn programming concepts in a beginner-friendly format:
+
+- What is it?
+- Why is it used?
+- How does it work?
+- Real-world example
+- Time & space complexity
+- Interview questions
+- Practice exercise
+
+### 🧠 Interview Mode
+
+Generate technical interview preparation based on your selected code.
+
+Code Sensei provides:
+
+- Interview questions
+- Expected answers
+- Follow-up questions
+- Difficulty levels
+- Interview tips
+
+### 📄 Explain Current File
+
+Analyze an entire source file and understand:
+
+- File purpose
+- Main components
+- Execution flow
+- Good practices
+- Problems
+- Possible improvements
+
+### 🧪 Generate Unit Tests
+
+Generate unit tests for selected code to help developers understand testing patterns and improve code reliability.
+
+---
+
+## 🎯 Why Code Sensei?
+
+Most AI coding tools focus on generating the answer.
+
+Code Sensei focuses on **teaching the developer how to arrive at the answer**.
+
+The goal is to help developers:
+
+- Understand code
+- Develop problem-solving skills
+- Learn programming concepts
+- Prepare for technical interviews
+- Improve existing code
+- Write better tests
+
+---
+
+## 🛠️ Tech Stack
+
+- **TypeScript**
+- **Visual Studio Code Extension API**
+- **VS Code Webviews**
+- **Groq API**
+- **Groq SDK**
+- **Llama 3.3 70B**
+- **esbuild**
+- **Marked**
+- **Highlight.js**
+
+---
+
+## 🏗️ Architecture
+
+```text
+┌──────────────────────────┐
+│       VS Code UI         │
+│                          │
+│  Code Sensei Webview     │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│   SenseiViewProvider     │
+│                          │
+│   Message Handling       │
+│   AI Request Pipeline    │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│       AIService          │
+│                          │
+│   Central AI Interface   │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│      GroqProvider        │
+│                          │
+│      Groq SDK            │
+└────────────┬─────────────┘
+             │
+             ▼
+        Groq API

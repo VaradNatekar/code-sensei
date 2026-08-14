@@ -2,14 +2,17 @@ import { GroqProvider } from "./GroqProvider";
 
 export class AIService {
 
-    private static provider = new GroqProvider();
+    private static provider =
+        new GroqProvider();
 
     public static async generate(
-        prompt: string
+        prompt: string,
+        apiKey: string
     ): Promise<string> {
 
-        return await this.provider.generate(prompt);
-
+        return await this.provider.generate(
+            prompt,
+            apiKey
+        );
     }
-
 }

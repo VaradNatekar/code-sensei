@@ -9,9 +9,17 @@ export class SenseiViewProvider
     public static readonly viewType =
         "codeSensei.sidebar";
 
+    private readonly extensionUri: vscode.Uri;
+
+    private readonly secrets: vscode.SecretStorage;
+
     constructor(
-        private readonly extensionUri: vscode.Uri
-    ) {}
+        extensionUri: vscode.Uri,
+        secrets: vscode.SecretStorage
+    ) {
+        this.extensionUri = extensionUri;
+        this.secrets = secrets;
+    }
 
     public resolveWebviewView(
         webviewView: vscode.WebviewView
@@ -163,10 +171,23 @@ export class SenseiViewProvider
                 console.log(prompt);
 
                 // Generate AI response
-                const response =
-                    await AIService.generate(
-                        prompt
-                    );
+                const apiKey =
+    await this.secrets.get("groqApiKey");
+
+if (!apiKey) {
+
+    vscode.window.showWarningMessage(
+        "Groq API key not configured. Please set it first."
+    );
+
+    return;
+}
+
+const response =
+    await AIService.generate(
+        prompt,
+        apiKey
+    );
 
                 console.log(
                     "========== RESPONSE =========="

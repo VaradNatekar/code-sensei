@@ -2,12 +2,15 @@ import Groq from "groq-sdk";
 
 export class GroqProvider {
 
-    public async generate(prompt: string): Promise<string> {
-
-        const apiKey = process.env.GROQ_API_KEY;
+    public async generate(
+        prompt: string,
+        apiKey: string
+    ): Promise<string> {
 
         if (!apiKey) {
-            throw new Error("Groq API key not found.");
+            throw new Error(
+                "Groq API key not configured. Please set your API key first."
+            );
         }
 
         const groq = new Groq({
@@ -39,13 +42,13 @@ export class GroqProvider {
 
         } catch (error) {
 
-            console.error("========== GROQ ERROR ==========");
+            console.error(
+                "========== GROQ ERROR =========="
+            );
+
             console.error(error);
 
             throw error;
-
         }
-
     }
-
 }

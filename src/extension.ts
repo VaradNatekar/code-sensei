@@ -1,44 +1,20 @@
 import * as vscode from "vscode";
-import * as dotenv from "dotenv";
-import * as path from "path";
 
 import { SenseiViewProvider } from "./webview/SenseiViewProvider";
 
+export function activate(
+    context: vscode.ExtensionContext
+) {
 
-export function activate(context: vscode.ExtensionContext) {
-
-    // Load .env
-    const envPath = path.join(
-        context.extensionPath,
-        ".env"
-    );
-
-    const result = dotenv.config({
-        path: envPath,
-    });
-
-    console.log("Env Path:", envPath);
-
-    if (result.error) {
-        console.error(
-            "❌ Failed to load .env:",
-            result.error
-        );
-    } else {
-        console.log("✅ .env loaded successfully");
-    }
-
-    console.log(
-        "Gemini API:",
-        process.env.GEMINI_API_KEY
-            ? "FOUND ✅"
-            : "NOT FOUND ❌"
-    );
-
+    // -------------------------------
     // Register Sidebar
-    const provider = new SenseiViewProvider(
-        context.extensionUri
-    );
+    // -------------------------------
+
+    const provider =
+        new SenseiViewProvider(
+            context.extensionUri,
+            context.secrets
+        );
 
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
@@ -47,51 +23,105 @@ export function activate(context: vscode.ExtensionContext) {
         )
     );
 
+
+    // -------------------------------
     // Register Commands
+    // -------------------------------
+
     context.subscriptions.push(
 
-        
+        // Set Groq API Key
+        vscode.commands.registerCommand(
+            "codeSensei.setApiKey",
+            async () => {
 
+                const apiKey =
+                    await vscode.window.showInputBox({
+
+                        prompt:
+                            "Enter your Groq API key",
+
+                        password: true,
+
+                        ignoreFocusOut: true,
+
+                        placeHolder:
+                            "gsk_..."
+                    });
+
+                if (!apiKey) {
+                    return;
+                }
+
+                await context.secrets.store(
+                    "groqApiKey",
+                    apiKey
+                );
+
+                vscode.window.showInformationMessage(
+                    "🔐 Groq API key saved securely."
+                );
+            }
+        ),
+
+
+        // Review
         vscode.commands.registerCommand(
             "codeSensei.review",
             () => {
+
                 vscode.window.showInformationMessage(
                     "📊 Review command triggered!"
                 );
+
             }
         ),
 
+
+        // Debug
         vscode.commands.registerCommand(
             "codeSensei.debug",
             () => {
+
                 vscode.window.showInformationMessage(
                     "🐞 Debug command triggered!"
                 );
+
             }
         ),
 
+
+        // Learn
         vscode.commands.registerCommand(
             "codeSensei.learn",
             () => {
+
                 vscode.window.showInformationMessage(
                     "📚 Learn command triggered!"
                 );
+
             }
         ),
 
+
+        // Interview
         vscode.commands.registerCommand(
             "codeSensei.interview",
             () => {
+
                 vscode.window.showInformationMessage(
                     "🧠 Interview command triggered!"
                 );
+
             }
-        ),
-       
+        )
 
     );
 
-    console.log("🥋 Code Sensei Activated");
+    console.log(
+        "🥋 Code Sensei Activated"
+    );
 }
+
 
 export function deactivate() {}
