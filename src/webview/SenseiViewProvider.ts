@@ -3,9 +3,11 @@ import * as fs from "fs";
 import { PromptBuilder } from "../ai/PromptBuilder";
 import { AIService } from "../ai/AIService";
 
-export class SenseiViewProvider implements vscode.WebviewViewProvider {
+export class SenseiViewProvider
+    implements vscode.WebviewViewProvider {
 
-    public static readonly viewType = "codeSensei.sidebar";
+    public static readonly viewType =
+        "codeSensei.sidebar";
 
     constructor(
         private readonly extensionUri: vscode.Uri
@@ -15,10 +17,12 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
         webviewView: vscode.WebviewView
     ): void {
 
-        const webview = webviewView.webview;
+        const webview =
+            webviewView.webview;
 
         webview.options = {
             enableScripts: true,
+
             localResourceRoots: [
                 vscode.Uri.joinPath(
                     this.extensionUri,
@@ -27,40 +31,49 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
             ]
         };
 
-        const htmlPath = vscode.Uri.joinPath(
-            this.extensionUri,
-            "media",
-            "index.html"
-        );
+        // -------------------------------
+        // Load HTML
+        // -------------------------------
 
-        let html = fs.readFileSync(
-            htmlPath.fsPath,
-            "utf8"
-        );
-
-        const styleUri = webview.asWebviewUri(
+        const htmlPath =
             vscode.Uri.joinPath(
                 this.extensionUri,
                 "media",
-                "styles.css"
-            )
-        );
+                "index.html"
+            );
 
-        const scriptUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(
-                this.extensionUri,
-                "media",
-                "main.js"
-            )
-        );
+        let html =
+            fs.readFileSync(
+                htmlPath.fsPath,
+                "utf8"
+            );
 
-        const iconUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(
-                this.extensionUri,
-                "media",
-                "icon.png"
-            )
-        );
+        const styleUri =
+            webview.asWebviewUri(
+                vscode.Uri.joinPath(
+                    this.extensionUri,
+                    "media",
+                    "styles.css"
+                )
+            );
+
+        const scriptUri =
+            webview.asWebviewUri(
+                vscode.Uri.joinPath(
+                    this.extensionUri,
+                    "media",
+                    "main.js"
+                )
+            );
+
+        const iconUri =
+            webview.asWebviewUri(
+                vscode.Uri.joinPath(
+                    this.extensionUri,
+                    "media",
+                    "icon.png"
+                )
+            );
 
         html = html
             .replace(
@@ -83,13 +96,15 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
         // -------------------------------
 
         const runAI = async (
-    builder: (
-        code: string,
-        language: string
-    ) => string,
-    requiresSelection: boolean,
-    defaultError: string
-) => {
+            builder: (
+                code: string,
+                language: string
+            ) => string,
+
+            requiresSelection: boolean,
+
+            defaultError: string
+        ): Promise<void> => {
 
             try {
 
@@ -105,44 +120,69 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                     return;
                 }
 
-               if (
-    requiresSelection &&
-    editor.selection.isEmpty
-) {
-    vscode.window.showWarningMessage(
-        "Please select some code first."
-    );
-    return;
-}
+                // Selected code required
+                if (
+                    requiresSelection &&
+                    editor.selection.isEmpty
+                ) {
 
+                    vscode.window.showWarningMessage(
+                        "Please select some code first."
+                    );
+
+                    return;
+                }
+
+                // Tell webview that AI is working
                 webview.postMessage({
                     command: "loading"
                 });
 
-                const code = requiresSelection
-    ? editor.document.getText(editor.selection)
-    : editor.document.getText();
+                // Get selected code OR entire file
+                const code =
+                    requiresSelection
+                        ? editor.document.getText(
+                            editor.selection
+                        )
+                        : editor.document.getText();
 
                 const language =
                     editor.document.languageId;
 
+                // Build prompt
                 const prompt =
                     builder(
                         code,
                         language
                     );
 
+                console.log(
+                    "========== PROMPT =========="
+                );
+
+                console.log(prompt);
+
+                // Generate AI response
                 const response =
                     await AIService.generate(
                         prompt
                     );
 
+                console.log(
+                    "========== RESPONSE =========="
+                );
+
+                console.log(response);
+
+                // Send response to webview
                 webview.postMessage({
                     command: "response",
                     text: response
                 });
 
             } catch (error) {
+
+                console.error(error);
 
                 let errorMessage =
                     defaultError;
@@ -156,9 +196,7 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                     command: "error",
                     text: errorMessage
                 });
-
             }
-
         };
 
         // -------------------------------
@@ -170,52 +208,114 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
 
                 switch (message.command) {
 
+                    // -------------------
+                    // Explain
+                    // -------------------
+
                     case "explain":
 
                         await runAI(
-    PromptBuilder.explain,
-    true,
-    "❌ Failed to explain code."
-);
+                            PromptBuilder.explain,
+                            true,
+                            "❌ Failed to explain code."
+                        );
 
                         break;
+
+
+                    // -------------------
+                    // Review
+                    // -------------------
 
                     case "review":
 
                         await runAI(
-    PromptBuilder.review,
-    true,
-    "❌ Failed to review code."
-);
+                            PromptBuilder.review,
+                            true,
+                            "❌ Failed to review code."
+                        );
+
                         break;
 
+
+                    // -------------------
+                    // Debug
+                    // -------------------
+
                     case "debug":
-await runAI(
-    PromptBuilder.debug,
-    true,
-    "❌ Failed to debug code."
-);
-                    break;
+
+                        await runAI(
+                            PromptBuilder.debug,
+                            true,
+                            "❌ Failed to debug code."
+                        );
+
+                        break;
+
+
+                    // -------------------
+                    // Learn
+                    // -------------------
 
                     case "learn":
 
-                   await runAI(
-    PromptBuilder.learn,
-    true,
-    "❌ Failed to teach concept."
-);
+                        await runAI(
+                            PromptBuilder.learn,
+                            true,
+                            "❌ Failed to teach concept."
+                        );
 
-                    break;
+                        break;
+
+
+                    // -------------------
+                    // Interview
+                    // -------------------
 
                     case "interview":
 
-   await runAI(
-    PromptBuilder.interview,
-    true,
-    "❌ Failed to generate interview questions."
-);
+                        await runAI(
+                            PromptBuilder.interview,
+                            true,
+                            "❌ Failed to generate interview questions."
+                        );
 
-    break;
+                        break;
+
+
+                    // -------------------
+                    // Explain Current File
+                    // -------------------
+
+                    case "explainFile":
+
+                        await runAI(
+                            PromptBuilder.explainFile,
+                            false,
+                            "❌ Failed to explain current file."
+                        );
+
+                        break;
+
+
+                    // -------------------
+                    // Generate Unit Tests
+                    // -------------------
+
+                    case "generateTests":
+
+                        await runAI(
+                            PromptBuilder.generateTests,
+                            true,
+                            "❌ Failed to generate unit tests."
+                        );
+
+                        break;
+
+
+                    // -------------------
+                    // Unknown Command
+                    // -------------------
 
                     default:
 
@@ -225,110 +325,8 @@ await runAI(
                         );
 
                         break;
-
-                        case "explainFile": {
-
-    try {
-
-        const editor =
-            vscode.window.activeTextEditor;
-
-        if (!editor) {
-
-            vscode.window.showWarningMessage(
-                "No active editor found."
-            );
-
-            return;
-        }
-
-        webview.postMessage({
-            command: "loading"
-        });
-
-        const code =
-            editor.document.getText();
-
-        const language =
-            editor.document.languageId;
-
-        const fileName =
-            editor.document.fileName;
-
-        const prompt = `
-You are Code Sensei.
-
-Analyze this entire ${language} file.
-
-File:
-${fileName}
-
-Code:
-${code}
-
-Return your answer in Markdown.
-
-# 📄 Purpose
-
-Explain what this file does.
-
-# 🧩 Main Components
-
-Explain the important functions or classes.
-
-# 🔄 Execution Flow
-
-Describe how the file works.
-
-# ✅ Good Practices
-
-Mention what is good.
-
-# ❌ Problems
-
-Mention bugs or bad practices.
-
-# 🚀 Improvements
-
-Suggest improvements.
-`;
-
-        const response =
-            await AIService.generate(
-                prompt
-            );
-
-        webview.postMessage({
-            command: "response",
-            text: response
-        });
-
-    } catch (error) {
-
-        let errorMessage =
-            "❌ Failed to explain file.";
-
-        if (error instanceof Error) {
-            errorMessage =
-                error.message;
-        }
-
-        webview.postMessage({
-            command: "error",
-            text: errorMessage
-        });
-
-    }
-
-    break;
-}
-
                 }
-
             }
         );
-        
-
     }
-
 }

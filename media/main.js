@@ -6,6 +6,7 @@ const debugBtn = document.getElementById("debug");
 const learnBtn = document.getElementById("learn");
 const interviewBtn = document.getElementById("interview");
 const explainFileBtn = document.getElementById("explainFile");
+const generateTestsBtn = document.getElementById("generateTests");
 
 const copyBtn = document.getElementById("copyBtn");
 
@@ -154,7 +155,11 @@ interviewBtn?.addEventListener("click", () => {
     });
 
 });
-explainFileBtn?.addEventListener(() => {
+// Explain Current File
+
+explainFileBtn?.addEventListener("click", () => {
+
+    status.textContent = "🤔 Thinking...";
 
     addMessage(
         "user",
@@ -166,6 +171,61 @@ explainFileBtn?.addEventListener(() => {
     });
 
 });
+
+
+// Generate Unit Tests
+
+generateTestsBtn?.addEventListener("click", () => {
+
+    status.textContent = "🤔 Generating tests...";
+
+    addMessage(
+        "user",
+        "🧪 Generate unit tests for my selected code."
+    );
+
+    vscode.postMessage({
+        command: "generateTests"
+    });
+
+});
+
+// Generate Unit Tests
+
+generateTestsBtn?.addEventListener("click", () => {
+
+    status.textContent = "🤔 Generating tests...";
+
+    addMessage(
+        "user",
+        "🧪 Generate unit tests for my selected code."
+    );
+
+    vscode.postMessage({
+        command: "generateTests"
+    });
+
+});
+
+
+
+    // Generate Unit Tests
+
+generateTestsBtn?.addEventListener("click", () => {
+
+    status.textContent = "🤔 Generating tests...";
+
+    addMessage(
+        "user",
+        "🧪 Generate unit tests for my selected code."
+    );
+
+    vscode.postMessage({
+        command: "generateTests"
+    });
+
+});
+
 
 // Messages from Extension
 

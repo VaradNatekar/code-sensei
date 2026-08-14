@@ -235,4 +235,50 @@ Give a short overall summary.
 `;
 
 }
+
+public static generateTests(
+    code: string,
+    language: string
+): string {
+
+    return `
+You are Code Sensei, an expert software engineer.
+
+Analyze the following ${language} code and generate useful unit tests.
+
+Code:
+
+${code}
+
+Return the answer in Markdown.
+
+# 🧪 Test Strategy
+
+Explain what should be tested.
+
+# ✅ Test Cases
+
+List the important test cases.
+
+Include:
+- Normal cases
+- Edge cases
+- Boundary cases
+- Invalid inputs where relevant
+
+# 💻 Generated Tests
+
+Provide complete runnable unit-test code.
+
+Choose an appropriate testing framework based on the language.
+
+# ⚠️ Missing Cases
+
+Mention anything that cannot be tested reliably without additional context.
+
+# 💡 Testing Tips
+
+Give a few concise recommendations.
+`;
+}
 }
