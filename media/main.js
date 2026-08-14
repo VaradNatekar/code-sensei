@@ -12,6 +12,7 @@ const copyBtn = document.getElementById("copyBtn");
 
 const status = document.getElementById("status");
 const chatHistory = document.getElementById("chatHistory");
+const clearChatBtn = document.getElementById("clearChat");
 
 let lastAIResponse = "";
 
@@ -66,6 +67,18 @@ copyBtn?.addEventListener("click", async () => {
     await navigator.clipboard.writeText(lastAIResponse);
 
     status.textContent = "📋 Response copied";
+
+});
+
+// Clear Conversation
+
+clearChatBtn?.addEventListener("click", () => {
+
+    chatHistory.innerHTML = "";
+
+    lastAIResponse = "";
+
+    status.textContent = "🟢 Conversation cleared";
 
 });
 
