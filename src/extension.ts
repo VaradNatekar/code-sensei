@@ -3,8 +3,7 @@ import * as dotenv from "dotenv";
 import * as path from "path";
 
 import { SenseiViewProvider } from "./webview/SenseiViewProvider";
-import { explainCommand } from "./commands/ExplainCommand";
-import { explainFileCommand } from "./commands/ExplainFileCommand";
+
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -51,10 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Register Commands
     context.subscriptions.push(
 
-        vscode.commands.registerCommand(
-            "codeSensei.explain",
-            explainCommand
-        ),
+        
 
         vscode.commands.registerCommand(
             "codeSensei.review",
@@ -91,10 +87,7 @@ export function activate(context: vscode.ExtensionContext) {
                 );
             }
         ),
-        vscode.commands.registerCommand(
-    "codeSensei.explainFile",
-    explainFileCommand
-),
+       
 
     );
 

@@ -83,12 +83,13 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
         // -------------------------------
 
         const runAI = async (
-            builder: (
-                code: string,
-                language: string
-            ) => string,
-            defaultError: string
-        ) => {
+    builder: (
+        code: string,
+        language: string
+    ) => string,
+    requiresSelection: boolean,
+    defaultError: string
+) => {
 
             try {
 
@@ -104,23 +105,23 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                     return;
                 }
 
-                if (editor.selection.isEmpty) {
-
-                    vscode.window.showWarningMessage(
-                        "Please select some code first."
-                    );
-
-                    return;
-                }
+               if (
+    requiresSelection &&
+    editor.selection.isEmpty
+) {
+    vscode.window.showWarningMessage(
+        "Please select some code first."
+    );
+    return;
+}
 
                 webview.postMessage({
                     command: "loading"
                 });
 
-                const code =
-                    editor.document.getText(
-                        editor.selection
-                    );
+                const code = requiresSelection
+    ? editor.document.getText(editor.selection)
+    : editor.document.getText();
 
                 const language =
                     editor.document.languageId;
@@ -172,45 +173,47 @@ export class SenseiViewProvider implements vscode.WebviewViewProvider {
                     case "explain":
 
                         await runAI(
-                            PromptBuilder.explain,
-                            "❌ Failed to explain code."
-                        );
+    PromptBuilder.explain,
+    true,
+    "❌ Failed to explain code."
+);
 
                         break;
 
                     case "review":
 
                         await runAI(
-                            PromptBuilder.review,
-                            "❌ Failed to review code."
-                        );
-
+    PromptBuilder.review,
+    true,
+    "❌ Failed to review code."
+);
                         break;
 
                     case "debug":
-
-                  await runAI(
-                  PromptBuilder.debug,
-                  "❌ Failed to debug code."
-                  );
-
+await runAI(
+    PromptBuilder.debug,
+    true,
+    "❌ Failed to debug code."
+);
                     break;
 
                     case "learn":
 
-                    await runAI(
-                   PromptBuilder.learn,
-                    "❌ Failed to teach concept."
-                    );
+                   await runAI(
+    PromptBuilder.learn,
+    true,
+    "❌ Failed to teach concept."
+);
 
                     break;
 
                     case "interview":
 
-    await runAI(
-        PromptBuilder.interview,
-        "❌ Failed to generate interview questions."
-    );
+   await runAI(
+    PromptBuilder.interview,
+    true,
+    "❌ Failed to generate interview questions."
+);
 
     break;
 

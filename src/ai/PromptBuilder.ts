@@ -189,4 +189,50 @@ Give interview tips for this topic.
 `;
 
 }
+public static explainFile(
+    code: string,
+    language: string
+): string {
+
+    return `
+You are Code Sensei.
+
+Analyze this entire ${language} file.
+
+Code:
+
+${code}
+
+Return the answer in Markdown.
+
+# 📄 Purpose
+
+Explain what this file does.
+
+# 🧩 Main Components
+
+Describe the important functions, classes or modules.
+
+# 🔄 Execution Flow
+
+Explain how the code works from top to bottom.
+
+# ✅ Good Practices
+
+Mention what is good.
+
+# ❌ Problems
+
+Mention bugs, code smells or bad practices.
+
+# 🚀 Improvements
+
+Suggest improvements and possible refactoring ideas.
+
+# 📌 Summary
+
+Give a short overall summary.
+`;
+
+}
 }
