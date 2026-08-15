@@ -21,5 +21,12 @@
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true
-    }
+    },
+
+    "exclude": [
+        "demo",
+        "code-sensei",
+        "node_modules",
+        "dist"
+    ]
 }

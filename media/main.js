@@ -203,41 +203,6 @@ generateTestsBtn?.addEventListener("click", () => {
 
 });
 
-// Generate Unit Tests
-
-generateTestsBtn?.addEventListener("click", () => {
-
-    status.textContent = "🤔 Generating tests...";
-
-    addMessage(
-        "user",
-        "🧪 Generate unit tests for my selected code."
-    );
-
-    vscode.postMessage({
-        command: "generateTests"
-    });
-
-});
-
-
-
-    // Generate Unit Tests
-
-generateTestsBtn?.addEventListener("click", () => {
-
-    status.textContent = "🤔 Generating tests...";
-
-    addMessage(
-        "user",
-        "🧪 Generate unit tests for my selected code."
-    );
-
-    vscode.postMessage({
-        command: "generateTests"
-    });
-
-});
 
 
 // Messages from Extension
