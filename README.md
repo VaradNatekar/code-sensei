@@ -1,10 +1,37 @@
 # 🥋 Code Sensei
 
-> **Learn. Build. Master.**
+<p align="center">
+  <strong>Your AI Coding Mentor inside VS Code.</strong>
+</p>
 
-Code Sensei is an AI-powered coding mentor for VS Code designed to help developers **understand code instead of simply copying solutions**.
+<p align="center">
+  Learn the code. Understand the reasoning. Build it yourself.
+</p>
 
-It brings AI-powered explanations, debugging guidance, code review, unit-test generation, file analysis, and interview practice directly into the VS Code workflow.
+<p align="center">
+  <img src="media/icon.png" width="120" alt="Code Sensei">
+</p>
+
+<p align="center">
+  <a href="https://github.com/VaradNatekar/code-sensei/releases/tag/v1.0.0">
+    <img src="https://img.shields.io/github/v/release/VaradNatekar/code-sensei?style=for-the-badge" alt="Release">
+  </a>
+  <img src="https://img.shields.io/badge/VS%20Code-Extension-007ACC?style=for-the-badge" alt="VS Code Extension">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge" alt="TypeScript">
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
+</p>
+
+---
+
+## 🧠 Learn. Build. Master.
+
+Most AI coding tools focus on giving you the answer.
+
+**Code Sensei focuses on helping you understand why.**
+
+Code Sensei is an AI-powered coding mentor built directly into VS Code. It helps developers explain, review, debug, test, and learn from their code without leaving the editor.
+
+> **Don't just copy the code. Understand it.**
 
 ---
 
@@ -12,73 +39,55 @@ It brings AI-powered explanations, debugging guidance, code review, unit-test ge
 
 | Feature | What it does |
 |---|---|
-| 💡 **Explain Selected Code** | Breaks selected code down step-by-step |
-| 📊 **Review My Code** | Analyzes code and suggests improvements |
-| 🐞 **Debug My Code** | Identifies problems and explains how to fix them |
-| 📚 **Learn a Concept** | Helps understand programming concepts |
-| 🧠 **Interview Mode** | Generates interview questions from your code |
-| 📄 **Explain Current File** | Understands and explains the complete file |
-| 🧪 **Generate Unit Tests** | Creates test strategies and test cases |
+| 💡 **Explain Selected Code** | Understand selected code step-by-step |
+| 📊 **Review My Code** | Get structured feedback on your code |
+| 🐞 **Debug My Code** | Identify problems and understand how to fix them |
+| 📚 **Learn a Concept** | Learn programming concepts through your code |
+| 🧠 **Interview Mode** | Turn your code into interview practice |
+| 📄 **Explain Current File** | Understand an entire source file |
+| 🧪 **Generate Unit Tests** | Generate testing strategies and test cases |
 
 ---
 
-# 🚀 Code Sensei in Action
+## 🚀 Code Sensei in Action
 
-## 1. Code Sensei Overview
+### 💡 Explain Selected Code
 
-The Code Sensei sidebar brings your AI coding mentor directly into VS Code.
-
-![Code Sensei Overview](screenshots/01-overview.png)
-
----
-
-## 2. Explain Selected Code
-
-Select a piece of code and let Sensei break it down step-by-step.
+Select code and ask Sensei to explain what it does and why it works.
 
 ![Explain Selected Code](screenshots/02-explain-selected-code.png)
 
----
+### 🐞 Debug My Code
 
-## 3. Debug My Code
+Get guidance when something isn't working.
 
-Code Sensei can analyze problematic code, identify the issue, and explain the reasoning behind the fix.
+![Debug Code](screenshots/03-debug-code.png)
 
-![Debug My Code](screenshots/03-debug-code.png)
+### 🧪 Generate Unit Tests
 
----
-
-## 4. Generate Unit Tests
-
-Generate test strategies and test cases for your selected code.
+Generate test strategies for your selected code.
 
 ![Generate Unit Tests](screenshots/04-generate-unit-tests.png)
 
----
+### 📄 Explain Current File
 
-## 5. Explain Current File
-
-Understand the purpose and structure of an entire source file without leaving VS Code.
+Understand the purpose and structure of an entire file.
 
 ![Explain Current File](screenshots/05-explain-current-file.png)
 
----
+### 🧠 Interview Mode
 
-## 6. Interview Mode
-
-Turn your own code into an interview practice session.
+Turn your code into an interview-style learning session.
 
 ![Interview Mode](screenshots/06-interview-mode.png)
 
 ---
 
-# 🧠 Why Code Sensei?
+## 🎯 The Philosophy
 
-Most AI coding tools focus on giving you the answer.
+Code Sensei isn't designed to replace the developer.
 
-Code Sensei focuses on helping you **understand why**.
-
-### The philosophy
+It's designed to help the developer **become better**.
 
 ```text
 Question

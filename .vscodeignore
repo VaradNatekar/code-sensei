@@ -10,3 +10,8 @@ tests
 tsconfig.json
 esbuild.js
 eslint.config.mjs
+.vscode-test.mjs
+vsc-extension-quickstart.md
+demo/
+code-sensei-check.zip
+extension.vsixmanifest.txt

@@ -1,13 +1,13 @@
 {
-  "name": "code-sensei",
-  "displayName": "Code Sensei",
+  "name": "senseicode-ai",
+  "displayName": "SenseiCode AI",
   "description": "AI coding mentor that teaches developers through guidance, hints, and explanations instead of giving direct solutions.",
   "version": "1.0.0",
-  "publisher": "varad",
+  "publisher": "varadnatekar",
   "repository": {
-  "type": "git",
-  "url": "https://github.com/VaradNatekar/code-sensei.git"
-},
+    "type": "git",
+    "url": "https://github.com/VaradNatekar/code-sensei.git"
+  },
   "engines": {
     "vscode": "^1.125.0"
   },
@@ -24,7 +24,7 @@
     "onCommand:codeSensei.interview",
     "onCommand:codeSensei.explainFile",
     "onCommand:codeSensei.generateTests"
-],
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
